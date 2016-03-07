@@ -4,54 +4,53 @@
 	<title>mouseDrag</title>
 	<meta charset="UTF-8">
 	<style type="text/css">
-	* {
+* {
+		width: 100%;
+		height: 100%;
 		padding: 0px;
 		margin: 0px;
 	}
-
 	#div {
-		background-color: aqua;
 		position: absolute;
-		/*top:50%;
-		left:50%;*/
 		width: 200px;
 		height: 200px;
-		/*margin-left: -100px;
-		margin-top: -100px;*/
 		top: 0;
 		left: 0;
 		bottom: 0;
 		right: 0;
-		margin: auto;
+		background: red;
 		cursor: move;
+
 	}
 	</style>
 </head>
 <body>
-<div id="div"></div>
+<div id="div" style="top:0;left:0"></div>
 <script type="text/javascript">
 	(function() {
 		var div = document.getElementById("div");
 		var relativeX;
 		var relativeY;
 		var flag = 0;
-		var top = div.style.top;
-		var left = div.style.left;
 		div.addEventListener('mousedown',function(event) {
-			var event = event||window.event;
-			var mouseX = event.pageX;
-			var mouseY = event.pageY;
-			relativeX = mouseX-Number(left);
-			relativeY = mouseY - Number(top);
+			
+			var mouseX = event.clientX;
+			var mouseY = event.clientY;
+			relativeX = mouseX - this.offsetLeft;
+			relativeY = mouseY - this.offsetTop;
 			flag = 1;
 		})
 		document.onmousemove = function(event) {
-			var event = event||window.event;
-			var nowmouseX = event.pageX;
-			var nowmouseY = event.pageY;
+			
+		var moveX = event.clientX - relativeX;
+        var moveY = event.clientY - relativeY;
+        var clientX = document.documentElement.clientWidth - div.offsetWidth;
+        var clientY = document.documentElement.clientHeight - div.offsetHeight;
+        moveX = Math.min(clientX, Math.max(0, moveX));
+        moveY = Math.min(clientY, Math.max(0, moveY));
 			if (flag ===1) {
-				div.style.left = nowmouseX - relativeX +'px';
-				div.style.top = nowmouseY - relativeY +'px';
+				div.style.left = moveX+'px';
+				div.style.top = moveY +'px';
 			}
 
 		}
