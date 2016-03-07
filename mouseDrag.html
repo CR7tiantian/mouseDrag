@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>mouseDrag</title>
+	<meta charset="UTF-8">
+	<style type="text/css">
+	* {
+		padding: 0px;
+		margin: 0px;
+	}
+
+	#div {
+		background-color: aqua;
+		position: absolute;
+		/*top:50%;
+		left:50%;*/
+		width: 200px;
+		height: 200px;
+		/*margin-left: -100px;
+		margin-top: -100px;*/
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		margin: auto;
+		cursor: move;
+	}
+	</style>
+</head>
+<body>
+<div id="div"></div>
+<script type="text/javascript">
+	(function() {
+		var div = document.getElementById("div");
+		var relativeX;
+		var relativeY;
+		var flag = 0;
+		var top = div.style.top;
+		var left = div.style.left;
+		div.addEventListener('mousedown',function(event) {
+			var event = event||window.event;
+			var mouseX = event.pageX;
+			var mouseY = event.pageY;
+			relativeX = mouseX-Number(left);
+			relativeY = mouseY - Number(top);
+			flag = 1;
+		})
+		document.onmousemove = function(event) {
+			var event = event||window.event;
+			var nowmouseX = event.pageX;
+			var nowmouseY = event.pageY;
+			if (flag ===1) {
+				div.style.left = nowmouseX - relativeX +'px';
+				div.style.top = nowmouseY - relativeY +'px';
+			}
+
+		}
+
+		document.onmouseup = function() {
+			flag = 0;
+		}
+	})()
+</script>
+</body>
+</html>
